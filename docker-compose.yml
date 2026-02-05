@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  flask:
+    build: ./app
+    container_name: flask
+    restart: unless-stopped
+    networks:
+      - tor_net
+
+  tor:
+    build: ./tor
+    container_name: tor
+    restart: unless-stopped
+    depends_on:
+      - flask
+    volumes:
+      - tor-data:/var/lib/tor
+    networks:
+      - tor_net
+
+networks:
+  tor_net:
+    driver: bridge
+
+volumes:
+  tor-data:
