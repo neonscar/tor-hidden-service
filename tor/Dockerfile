@@ -5,10 +5,10 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 COPY torrc /etc/tor/torrc
+COPY entrypoint.sh /entrypoint.sh
 
-RUN mkdir -p /var/lib/tor && \
-    chown -R debian-tor:debian-tor /var/lib/tor
+RUN chmod +x /entrypoint.sh
 
 USER debian-tor
 
-CMD ["tor", "-f", "/etc/tor/torrc"]
+ENTRYPOINT ["/entrypoint.sh"]
